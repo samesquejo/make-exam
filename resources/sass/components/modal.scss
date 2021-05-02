@@ -1,0 +1,35 @@
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 100001;
+    padding: 15px 24px;
+    &-wrapper {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+    }
+    &-content {
+        background-color: #fff;
+        width: 100%;
+        max-width: 681px;
+        position: relative;
+        padding: 24px 32px;
+    }
+    &-dismiss {
+        margin-left: auto;
+        display: block;
+    }
+    &-backdrop {
+        background: rgba(0,0,0,.5);
+        z-index: 10000;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+    }
+}
