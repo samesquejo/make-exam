@@ -77,20 +77,33 @@ export default {
                     qty: this.formData.qty,
                     amount: this.formData.amount
                 }
+                let results = '';
                 if (this.formData.id) {
                     body.id = this.formData.id;
-                    await this.$axios.put(`api/inventory/${body.id}`, body);
+                    results = await this.$axios.put(`api/inventory/${body.id}`, body).then( ({data}) => {
+                        return data;
+                    });
                 } else {
-                    await this.$axios.post(`api/inventory`, body);
+                    results = await this.$axios.post(`api/inventory`, body).then( ({data}) => {
+                        return data;
+                    });
                 }
-                await this.getInventory();
-                this.activeModal(false);
-                this.formData = {
-                    id: null,
-                    productName: null,
-                    qty: null,
-                    amount: null
-                };
+                let errorsDesc = "";
+                if (results.errors) {
+                    for(let val in results.errors) {
+                        errorsDesc += `${val}: ${results.errors[val]}`;
+                    }
+                    alert(errorsDesc);
+                } else {
+                    await this.getInventory();
+                    this.activeModal(false);
+                    this.formData = {
+                        id: null,
+                        productName: null,
+                        qty: null,
+                        amount: null
+                    };
+                }
             } catch (error) {
                 alert(error);
             }

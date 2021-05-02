@@ -1957,7 +1957,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       var _this2 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
-        var body;
+        var body, results, errorsDesc, val;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
@@ -1968,29 +1968,56 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   qty: _this2.formData.qty,
                   amount: _this2.formData.amount
                 };
+                results = '';
 
                 if (!_this2.formData.id) {
-                  _context2.next = 8;
+                  _context2.next = 10;
                   break;
                 }
 
                 body.id = _this2.formData.id;
-                _context2.next = 6;
-                return _this2.$axios.put("api/inventory/".concat(body.id), body);
+                _context2.next = 7;
+                return _this2.$axios.put("api/inventory/".concat(body.id), body).then(function (_ref2) {
+                  var data = _ref2.data;
+                  return data;
+                });
 
-              case 6:
-                _context2.next = 10;
+              case 7:
+                results = _context2.sent;
+                _context2.next = 13;
                 break;
-
-              case 8:
-                _context2.next = 10;
-                return _this2.$axios.post("api/inventory", body);
 
               case 10:
                 _context2.next = 12;
-                return _this2.getInventory();
+                return _this2.$axios.post("api/inventory", body).then(function (_ref3) {
+                  var data = _ref3.data;
+                  return data;
+                });
 
               case 12:
+                results = _context2.sent;
+
+              case 13:
+                errorsDesc = "";
+
+                if (!results.errors) {
+                  _context2.next = 19;
+                  break;
+                }
+
+                for (val in results.errors) {
+                  errorsDesc += "".concat(val, ": ").concat(results.errors[val]);
+                }
+
+                alert(errorsDesc);
+                _context2.next = 23;
+                break;
+
+              case 19:
+                _context2.next = 21;
+                return _this2.getInventory();
+
+              case 21:
                 _this2.activeModal(false);
 
                 _this2.formData = {
@@ -1999,20 +2026,22 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   qty: null,
                   amount: null
                 };
-                _context2.next = 19;
+
+              case 23:
+                _context2.next = 28;
                 break;
 
-              case 16:
-                _context2.prev = 16;
+              case 25:
+                _context2.prev = 25;
                 _context2.t0 = _context2["catch"](0);
                 alert(_context2.t0);
 
-              case 19:
+              case 28:
               case "end":
                 return _context2.stop();
             }
           }
-        }, _callee2, null, [[0, 16]]);
+        }, _callee2, null, [[0, 25]]);
       }))();
     },
     createForm: function createForm() {

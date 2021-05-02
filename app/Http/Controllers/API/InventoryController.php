@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Library\ModelFactory as MF;
+use Illuminate\Support\Facades\Validator;
 
 class InventoryController extends Controller
 {
@@ -21,12 +22,33 @@ class InventoryController extends Controller
 
     public function createInventory(Request $request) {
 
+        $validator = Validator::make($request->all(), [
+            'productName' => 'required',
+            'qty' => 'required|integer',
+            'amount' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 200);
+        }
+
         $query = MF::model('inventory')->create($request->all());
 
         return response()->json(['data' => $query], 200);
     }
 
     public function updateInventory(Request $request) {
+
+        $validator = Validator::make($request->all(), [
+            'productName' => 'required',
+            'qty' => 'required|integer',
+            'amount' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 200);
+        }
+
         $query = MF::model('inventory')->find($request->id)->update($request->all());
         return response()->json(['data' => $query], 200);
     }
